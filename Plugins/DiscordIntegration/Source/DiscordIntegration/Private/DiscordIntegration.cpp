@@ -2,6 +2,8 @@
 
 #include "DiscordIntegration.h"
 
+DEFINE_LOG_CATEGORY(LogDiscordIntegration);
+
 #define LOCTEXT_NAMESPACE "FDiscordIntegrationModule"
 
 void FDiscordIntegrationModule::StartupModule()
