@@ -127,8 +127,8 @@ void UDiscordObject::Initialize()
 	});
 }
 
-discord::Core* UDiscordObject::GetCore()
+discord::Core* UDiscordObject::GetCore(UObject* Context)
 {
-	return Core;
+	return Get(Context)->Core;
 }
 

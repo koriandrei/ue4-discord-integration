@@ -23,20 +23,18 @@ class UDiscordObject : public UObject
 
 public:
 
+	static discord::Core* GetCore(UObject* Context);
+
+private:
+
 	static UDiscordObject* Get(UObject* Context);
 
 	void Initialize();
 
-	discord::Core* GetCore();
-
-private:
-
 	UFUNCTION()
 	void Update();
 
-	//UFUNCTION()
 	void LogDiscordMessage(EUeDiscordLogLevel LogLevel, const FString& Message);
-
 
 	static UDiscordObject* Create(UObject* Context);
 

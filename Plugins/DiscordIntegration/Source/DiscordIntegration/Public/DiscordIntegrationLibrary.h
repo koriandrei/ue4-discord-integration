@@ -17,7 +17,7 @@ enum class EDiscordActivityUpdateResult : uint8
 	Unidentified,
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDiscordActivityUpdate, EDiscordActivityUpdateResult, Result, int, FriendsCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDiscordActivityUpdate, EDiscordActivityUpdateResult, Result);
 
 UCLASS()
 class DISCORDINTEGRATION_API UUpdateDiscordActivity : public UBlueprintAsyncActionBase
@@ -30,18 +30,13 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = true, WorldContext = Context))
-	static UUpdateDiscordActivity* UpdateActivityHack(const FDiscordActivity& Activity, UObject* Context);
+	static UUpdateDiscordActivity* UpdateActivity(const FDiscordActivity& Activity, UObject* Context);
 
 	UObject* Context;
 private:
 	friend class UDiscordIntegrationLibrary;
 
-	void OnActivityUpdated(EDiscordActivityUpdateResult Result)
-	{
-		OnUpdated.Broadcast(Result, -100);
-
-		//SetReadyToDestroy();
-	}
+	void OnActivityUpdated(EDiscordActivityUpdateResult Result);
 
 	virtual void Activate() override;
 	bool bIsCountAvailable = false;
@@ -55,8 +50,11 @@ class DISCORDINTEGRATION_API UDiscordIntegrationLibrary : public UBlueprintFunct
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = true, WorldContext = Context))
-	static UUpdateDiscordActivity* UpdateActivity(const FDiscordActivity& Activity, UObject* Context);
+
+	UFUNCTION(BlueprintCallable)
+	static void UpdateActivity(const FDiscordActivity& Activity, UObject* Context);
+	
+	static void UpdateActivity(const FDiscordActivity& Activity, TFunction<void(EDiscordActivityUpdateResult)> Callback, UObject* Context);
 
 	UFUNCTION(BlueprintCallable, meta = (WorldContext = Context))
 	static int GetFriendsCount(const UObject* Context);

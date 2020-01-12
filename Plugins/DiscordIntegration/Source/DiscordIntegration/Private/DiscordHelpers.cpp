@@ -58,6 +58,6 @@ EUeDiscordLogLevel Cast(const discord::LogLevel InLogLevel)
 
 discord::Core* GetCore(UObject* Context)
 {
-	return UDiscordObject::Get(Context)->GetCore();
+	return UDiscordObject::GetCore(Context);
 }
 
