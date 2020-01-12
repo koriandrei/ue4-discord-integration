@@ -17,18 +17,28 @@ public class DiscordIntegration : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				ModuleDirectory + "/../../Libraries/cpp/"
+				//PluginDirectory + "/Libraries/cpp/"
 				// ... add other private include paths required here ...
 			}
 			);
 
-		PublicAdditionalLibraries.AddRange(
-			new string[]{ 
-				ModuleDirectory + "/../../Libraries/lib/x86_64/discord_game_sdk.dll.lib"
-			}
+        
+
+        string LibraryPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(PluginDirectory, "Libraries/lib/x86_64/discord_game_sdk.dll.lib"));
+
+        PublicAdditionalLibraries.AddRange(
+			new string[]{
+                LibraryPath
+            }
 			);
 
-		PublicDependencyModuleNames.AddRange(
+        string LibrariesPath = System.IO.Path.Combine(PluginDirectory, "Libraries/lib/x86_64/");
+
+        //PrivateRuntimeLibraryPaths.Add());
+
+        RuntimeDependencies.Add(PluginDirectory + "/Binaries/Win64/" + "/discord_game_sdk.dll", LibrariesPath + "/discord_game_sdk.dll");
+
+        PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",

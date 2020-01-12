@@ -4,20 +4,21 @@
 
 #include "DiscordSettings.generated.h"
 
-UCLASS(Config = Discord, DefaultConfig)
+UCLASS(Config = Game, DefaultConfig)
 class UDiscordSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
+public:
 
-	int64 GetClientId();
+	static int64 GetClientId();
 
 private:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Config)
 	int64 ClientId;
 };
 
-int64 UDiscordSettings::GetClientId()
+inline int64 UDiscordSettings::GetClientId()
 {
-	return ClientId;
+	return GetDefault<UDiscordSettings>()->ClientId;
 }
